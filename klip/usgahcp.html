@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>USGA Handicap Calculator</title>
+    <meta name="description" content="My attempt to use klipse and reagent.">
+
+    <link rel="stylesheet" href="main.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+
+  </head>
+  <body>
+    
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+	  
+	  <header class="post-header">
+	    <h1 class="post-title" itemprop="name headline">USGA Handicap Calculator</h1>
+	  </header>
+	  
+	  <div class="post-content" itemprop="articleBody">
+
+            <p>This example shows off a method of displaying live, editable Clojure code that is evaluated within the page itself. It uses Klipse and Reagent. Experiment with making changes to the code and see how it changes the output.</p>
+            <p></p>
+	    <p>Reagent must be loaded first.</p>
+	    
+	    <pre><code class="language-klipse">(require '[reagent.core :as r])
+	    </code></pre>
+	    
+	    <p>Let’s start with <strong>player</strong> and <strong>course</strong> data.</p>
+	    <p>You can edit this data for your personal handicap
+	      calculation. You can also experiment with code
+	      changes. Scroll to the bottom of the page to see the output.</p>
+	    
+	    <pre><code class="language-klipse">
+	      (def course-data
+		{:course-pars [5 4 3 4 3 4 5 3 5 4 3 5 4 3 4 5 4 4]
+                 :tees {:black   {:rating 72.5 :slope 133}
+                        :blue    {:rating 70.4 :slope 128}
+                        :white-m {:rating 68.6 :slope 120}
+                        :white-f {:rating 72.1 :slope 127}
+                        :red     {:rating 69.4 :slope 120}}})
+		
+              (def player-course-tee
+		{:course-handicap 12
+                 :gender :male
+                 :tee :white-m
+                 :rounds [[5 5 3 4 4 5 6 4 5 5 7 5 4 4 6 6 5 5]
+                          [5 5 3 4 4 5 6 4 5 5 8 5 4 4 6 7 5 5]
+                          [4 4 4 5 3 5 5 3 6 4 5 5 5 3 5 6 4 4]
+                          [5 4 5 3 3 5 4 4 5 5 5 4 6 5 4 5 6 5]
+                          [6 5 2 4 4 4 5 5 4 5 8 5 4 3 5 4 4 5]
+                          [4 3 5 4 4 5 4 3 6 6 5 6 6 3 5 6 4 6]
+                          [5 3 3 5 3 6 5 3 4 5 5 6 5 5 5 5 6 4]
+                          [6 6 3 3 4 5 5 4 6 4 8 5 4 4 4 6 4 6]            
+                          [7 5 4 4 5 4 6 5 6 5 7 6 7 4 6 5 5 5]]})
+	    </code></pre>
+
+
+	    <p>This code calculates a USGA handicap:</p>	    
+	    
+	    <pre><code class="language-klipse">
+(defn esc-max
+  "Return the maximum score given the PAR for the hole
+   and the players current course handicap"
+  [chcp holepar]
+  (cond
+    (<= chcp 9) (+ holepar 2)
+    (<= 10 chcp 19) 7
+    (<= 20 chcp 29) 8
+    (<= 30 chcp 39) 9
+    :else 10))
+
+;;Handicap Differential = (AGS - Course Rating) X 113 ÷ Slope Rating
+(defn hdiff
+  "Return a Handicap Differential for a give Adjusted Gross Score (AGS)"
+  [rating slope ags]
+  (let [roundoff #(/ (int (* 10 (+ 0.05 %))) 10.0)]
+    (roundoff (* (- ags rating) (/ 113 slope)))))
+
+(defn hdiff4Player 
+  [{:keys [course-handicap rounds]} {:keys [course-pars]} rating slope]
+  "Return all Handicap Differentials for a given player, course, and tee"
+  (let [maximums (map (partial esc-max course-handicap) course-pars)
+	ags4player (map #(apply + (map min % maximums)) rounds) ; adj gross
+        hdif (partial hdiff rating slope)]
+    (map hdif ags4player)))
+	
+(defn LowestHandicapDifferentials [hdiffs] 
+  "Return the lowest handicap differentials for a given player, course, tee"
+  (let [n (get [nil nil nil nil nil ; no handicap until five scores recorded.
+	        1 1 2 2 3 3 4 4 5 5 6 6 7 8 9 10] (count hdiffs) 10)]
+    (take n (sort hdiffs))))  ; lowest N
+
+(defn usga-handicap [{:keys [gender tee] :as player} {:keys [tees] :as course}]
+  (let [avg (fn [s] (/ (apply + s) (count s)))
+        hcpmax (if (= :male gender) 36.4 40.4)
+        thetee  (tee tees)
+	hdiffs (hdiff4Player player course (:rating thetee) (:slope thetee))
+        player-avg (avg (LowestHandicapDifferentials hdiffs))
+        trunk (fn [dd] (/ (int (* 10 dd)) 10.0)) ;truncate to tenths
+        hcp-index (min hcpmax (trunk (* 0.96 player-avg)))]
+    (int (* hcp-index (/ (:slope thetee) 113)))))
+	    </code></pre>
+
+	    <p>Calculate handicap and format the output:</p>
+	    
+	    <pre><code class="language-klipse">
+		(defn handicap-out
+		[pct cd]
+		[:p (str "USGA Handicap: " (usga-handicap pct cd) " strokes")])
+	    </code></pre>
+
+	    <p>Call it. If you've made any changes above, update this
+	    field to force a re-eval. (e.g. add a space at the end)</p>
+	    
+	    <pre><code class="language-reagent">
+		[handicap-out player-course-tee course-data]
+	    </code></pre>
+
+	    <p>Code evaluation powered by
+	      <a href="https://github.com/viebel/klipse">Klipse</a>
+	    </p>
+	    
+	    <style>
+	      .klipse-result:before {
+	      content: "** Output **";
+	      font-weight: bold;
+	      font-family: monospace;
+	      }
+	    </style>
+    
+	    <link rel="stylesheet" type="text/css" href="https://storage.googleapis.com/app.klipse.tech/css/codemirror.css">
+	    
+	  </div>
+        </article>
+      </div>
+    </div>
+    
+    <script>
+      window.klipse_settings = {
+      codemirror_options_in: {
+      lineWrapping: true,
+      autoCloseBrackets: true
+      },
+      codemirror_options_out: {
+      lineWrapping: true
+      },
+      beautify_strings: true,
+      selector: '.language-klipse',
+      selector_reagent: '.language-reagent',
+      };
+    </script>
+    
+    <script src="https://storage.googleapis.com/app.klipse.tech/plugin/js/klipse_plugin.js?v=5.0.0"></script>
+    <!-- <script src="http://localhost:5014/plugin/js/klipse_plugin.js?"></script> -->
+    
+  </body>
+</html>
