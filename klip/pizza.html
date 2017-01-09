@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<title>Pizza Calculator</title>
+<link rel="stylesheet" type="text/css" href="http://exupero.org/hazard/css/style.css" />
+
+<link rel="stylesheet" type="text/css" href="http://app.klipse.tech/css/codemirror.css" />
+<link rel="stylesheet" type="text/css" href="http://exupero.org/hazard/css/monokai.css" />
+
+<body>
+  <main>
+    <h6><a href="http://exupero.org/hazard/">Hazard</a></h6>
+    <h1>
+      Calculate the Total Cost of Delivered Pizza
+      <small>January 12, 2017</small>
+    </h1>
+
+    <p>This Clojure code calculates the cost of delivered pizza
+      given:</p>
+    <ul>
+      <li> the number of pizza eaters </li> 
+      <li> average number of slices per person</li>
+      <li> base price of each pizza</li>
+    </ul>
+    <p>Assumes 8 slices per pie. Rounds up to whole pies. Adds tax @
+    6% and a delivery charge @ 10% </p>
+
+    
+<pre ><code class="language-klipse" >
+(defn pizza-cost-calc 
+  "calculate the total cost of delivered pizza for n people" 
+  [n slices-per-person cost-per-pie]
+  (let [pies (inc (int (/ (* slices-per-person n) 8)))
+        piecost (* cost-per-pie pies)
+        tax (* 0.06 piecost)
+        delivery (* 0.10 piecost)]
+    (str "total pizza cost for "
+         n " people: "
+         "$" (+ piecost tax delivery))))
+
+(pizza-cost-calc 12 3 22.0)
+</code></pre>
+<canvas id="canvas--rectangle" class="center" width="160" height="85"></canvas>
+
+
+<p>For some bizarre reason, deleting this character: ° messes up the editor.</p>
+
+    <footer><em>You can find the original author at <a href="https://twitter.com/exupero">Twitter</a> or <a href="https://github.com/exupero/">GitHub</a>.</em></footer>
+    
+    <footer><em>Code evaluation powered by <a href="https://github.com/viebel/klipse">Klipse</a>.</em></footer>
+    
+  </main>
+  
+  <script>window.klipse_settings = {selector: '.language-klipse'};</script>
+  <script src="http://app.klipse.tech/plugin/js/klipse_plugin.js"></script>
+  
+</body>
