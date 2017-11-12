@@ -1,3 +1,3 @@
 # This is this
 
-[back to the top](/)
+[back to the top](/docs)
