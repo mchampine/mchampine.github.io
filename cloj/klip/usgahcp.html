@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>USGA Handicap Calculator</title>
     <meta name="description" content="My attempt to use klipse and reagent.">
 
     <link rel="stylesheet" href="main.css">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+
+
+    <link rel="stylesheet" type="text/css" href="https://storage.googleapis.com/app.klipse.tech/css/codemirror.css">
 
   </head>
   <body>
@@ -23,10 +27,6 @@
 
             <p>This example shows off a method of displaying live, editable Clojure code that is evaluated within the page itself. It uses Klipse and Reagent. Experiment with making changes to the code and see how it changes the output.</p>
             <p></p>
-	    <p>Reagent must be loaded first.</p>
-	    
-	    <pre><code class="language-klipse">(require '[reagent.core :as r])
-	    </code></pre>
 	    
 	    <p>Let’s start with <strong>player</strong> and <strong>course</strong> data.</p>
 	    <p>You can edit this data for your personal handicap
@@ -109,14 +109,14 @@
 	    <pre><code class="language-klipse">
 		(defn handicap-out
 		[pct cd]
-		[:p (str "USGA Handicap: " (usga-handicap pct cd) " strokes")])
+		  (str "USGA Handicap: " (usga-handicap pct cd) " strokes"))
 	    </code></pre>
 
 	    <p>Call it. If you've made any changes above, update this
 	    field to force a re-eval. (e.g. add a space at the end)</p>
 	    
-	    <pre><code class="language-reagent">
-		[handicap-out player-course-tee course-data]
+	    <pre><code class="language-klipse">
+		(handicap-out player-course-tee course-data)
 	    </code></pre>
 
 	    <p>Code evaluation powered by
@@ -131,30 +131,18 @@
 	      }
 	    </style>
     
-	    <link rel="stylesheet" type="text/css" href="https://storage.googleapis.com/app.klipse.tech/css/codemirror.css">
-	    
 	  </div>
         </article>
       </div>
     </div>
-    
+
     <script>
       window.klipse_settings = {
-      codemirror_options_in: {
-      lineWrapping: true,
-      autoCloseBrackets: true
-      },
-      codemirror_options_out: {
-      lineWrapping: true
-      },
-      beautify_strings: true,
-      selector: '.language-klipse',
-      selector_reagent: '.language-reagent',
+        selector: '.language-klipse'// css selector for the html elements you want to klipsify
       };
     </script>
-    
-    <script src="https://storage.googleapis.com/app.klipse.tech/plugin/js/klipse_plugin.js?v=5.0.0"></script>
-    <!-- <script src="http://localhost:5014/plugin/js/klipse_plugin.js?"></script> -->
+
+    <script src="https://storage.googleapis.com/app.klipse.tech/plugin/js/klipse_plugin.js"></script>
     
   </body>
 </html>

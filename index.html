@@ -1,13 +1,179 @@
-<!DOCTYPE html>
-<html>
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<link rel="stylesheet" href="resources/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="resources/mark.css" media="screen" />
+<script src="resources/jquery-1.js"></script>
+<script src="resources/jquery-ui.js"></script>
+    
+<title>Champine.com</title>
+
+<!--jquery magic to make the tabs switch-->
+<script type='text/javascript'>//<![CDATA[ 
+window.onload=function(){
+$(function () {
+    $("#tabs").tabs();
+});
+}//]]>  
+</script>
+
 <body>
 
-<h1>Welcome to champine.com</h1>
+  <div id="header">
+    <h1>Welcome to Champine.com</h1>
+  </div>
+  
+  <div id="content">
+    <div id="left">
+      <div id="tabs">
+        <ul>
+          <li><a href="#tabs-0">Welcome</a></li>
+          <li><a href="#tabs-1">Family</a></li>
+          <li><a href="#tabs-2">Mark Champine</a></li>
+          <li><a href="#tabs-3">George Champine</a></li>
+          <li><a href="#tabs-4">Etc</a></li>
+        </ul>
 
-<p>under construction</p>
+        <!--Welcome tab-->
+        <div id="tabs-0">
+          <p>Hi!</p>
+          <p>This is a simple site for champine.com.</p>
+          <p>Maybe someday I'll do something more with it.</p>
+        </div>
 
-<a href="klip/klipse.html">Some Klipse examples</a>
-<p></p>
-<a href="gac/gac.html">George Champine documents</a>
+        <!--Family tab-->
+        <div id="tabs-1">
+          <h2>Descendents of Ashley Floyd (Ted) and Carol Genevieve (Gen) Champine</h2>
+          <pre>
+-- George Champine (m. Barbara Nelson)
+   |
+   |-- Renee Champine Olson (m. David Olson)
+   |   |-- Andrew Champine
+   |   |-- Kari Champine Hegge (m. Matthew Hegge)
+   |
+   |-- Mark Champine (m. Lori Freel)
+   |   |-- Tyler Champine
+   |   |-- Luke Champine
+   |   |-- Kelly Champine
+   |
+   |-- Lisa Champine Paton (m. Lee Paton)
+       |-- Nicole Champine
+       |-- David Champine
+
+-- Charles Champine (m. Joanne Chalmers)
+   |
+   |-- Steve Champine (m. Heather Marx)
+   |   |-- Hayden Champine
+   |   |-- Lauren Champine
+   |   |-- Nolan Champine
+   |
+   |-- Elizabeth Champine Miller (m. Matthew Miller)
+       |-- Amanda Miller
+       |-- Austin Miller
+       |-- Joel Miller
+       |-- Kate Miller
+
+-- John Champine (m. Lynn Mills)
+   |
+   |-- Nathan Champine (m. Adrian Petty)
+   |   |-- Julian Champine
+   |   |-- Genevieve Champine
+   |
+   |-- Natalie Champine Rhoden (m. Charles Rhoden)
+       |-- John Champine
+       |-- Connor Champine
+          </pre>
+          <p></p>
+        </div>
+
+        <!--Mark Champine tab-->
+        <div id="tabs-2">
+          <h2>Personal</h2>
+          <p></p>
+          <img src="mac/loritylerlukekelly.gif" alt="Lori and The Kids" height="240">
+          <img src="mac/mark-n-lori-ireland.jpg" alt="Mark Champine" height="240">
+          <img src="mac/mark-blonde-60s.jpg" alt="Mark Champine" height="240">
+
+          <p></p>
+          <h2>Work</h2>
+          <p></p>
+	    <a href="mac/MarkChampineResumeTeX.pdf" target="_blank">Mark Champine Resume</a>
+        </div>
+
+        <!--George Champine tab-->
+        <div id="tabs-3">
+          <p></p>
+          <h2>George Champine Docs</h2>
+         <ul>
+            <li>
+	    <a href="gac/songofmn.pdf" target="_blank">Song of Minnesota</a> Growing Up In Fairmont and Southern Minnesota in the 30s, 40s, and 50s
+            </li>
+            <li>
+	    <a href="gac/UnivacComputersIveKnown.pdf" target="_blank">Univac Computers I've Known</a>
+            </li>
+          </ul>
+          <p></p>
+          <img src="gac/geo-cor-ps2.jpg" alt="George Champine" height="240">
+          <img src="gac/1999geba.jpg" alt="George and Barbara Champine" height="240">
+        </div>
+
+	<!--Etc tab-->
+        <div id="tabs-4">
+	  <h3>Clojure</h3>
+          <p></p>
+          The  
+          <a href="http://www.meetup.com/Boston-Clojure-Group/" target="_blank">Boston Clojure Group</a>
+	  meets the 2nd Thursday of each month, at Akamai in Kendall Square.
+          <p></p>
+          <h2>Klipse Examples (Klipse lets you run Clojure in a web page)</h2>
+          <p></p>
+          <ul>
+	  <li><a href="cloj/klip/pizza.html" target="_blank">Pizza Calculator</a></li>
+	  <li><a href="cloj/klip/usgahcp.html" target="_blank">USPGA Handicap Calculator</a></li>
+          </ul>
+          <p></p>
+          <p></p>
+          <h2>Presentations</h2>
+          <p></p>
+	  <a href="cloj/presentation.html" target="_blank">Clojure for Cryptanalysis</a>
+          <p></p>
+          <h2>Resources</h2>
+          <ul>
+            <li><a href="http://dev.clojure.org/display/doc/Getting+Started"
+            target="_blank">Getting Started</a></li>
+            <li><a href="http://learn-clojure.com/" target="_blank">Learn Clojure</a></li>
+            <li><a href="http://clojuredocs.org/quickref/Clojure%20Core"
+            target="_blank">Clojure Docs</a></li>
+            <li><a href="http://bit.ly/iap_slides" target="_blank">Better Living
+            Through Clojure</a>, Tutorial
+            for <a href="https://sipb.mit.edu/iap/#clojure" target="_blank">MIT IAP 2015</a>, by Mark
+            Champine, Paul Lam, and Alex Huang</li>
+          </ul>
+
+        </div>
+
+      </div>
+    </div>
+  </div>  
+  
+  <div id="right">
+    <div class="box">
+      <h2>About :</h2>	
+      <p>Champine.com is run by Mark Champine, Somerville, MA</p>
+      <p>Principal Security Architect, Akamai since January 2013.</p>
+      <div class="box">
+        <h2>My Pages:</h2>
+        <ul>
+          <li><a href="https://github.com/mchampine" target="_blank">Github</a></li>
+          <li><a href="https://www.facebook.com/mchampine" target="_blank">Facebook</a></li>
+          <li>mchampine on <a href="https://slack.com" target="_blank">Slack</a></li>
+          <li><a href="https://twitter.com/mchampine"
+          target="_blank">@mchampine on Twitter</a></li>
+          <li><a href="https://www.linkedin.com/in/mark-champine/"
+          target="_blank">LinkedIn</a></li>
+          <li><a href="" target="_blank">Google+</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
 </body>
-</html>
